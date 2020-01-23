@@ -42,8 +42,11 @@ class Fun(commands.Cog):
     # Dice command
     @commands.command(aliases=['die', 'rng'], brief="Random number generator.", description="Random number generator. Enter a number larger than zero or one.")
     @commands.guild_only()
-    async def dice(self, ctx, number : int):
-        await ctx.send(f"{ctx.author.mention} {random.randrange(1, number)}")
+    async def dice(self, ctx, number : float):
+        if (number).is_integer():
+            await ctx.send(f"{ctx.author.mention} {random.randrange(1, number)}")
+        else:
+            return await ctx.send(f"{ctx.author.mention} please enter a whole number.")
 
     @dice.error
     async def dice_error(self, ctx, error):
@@ -55,7 +58,7 @@ class Fun(commands.Cog):
     @commands.guild_only()
     async def decide(self, ctx, *, choices : str):
         answers = choices.split("|")
-        await ctx.send(random.choice(answers))
+        await ctx.send(f"{ctx.author.mention} {random.choice(answers)}")
 
 def setup(client):
     client.add_cog(Fun(client))
