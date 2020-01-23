@@ -32,7 +32,9 @@ class Fun(commands.Cog):
             "outlook not so good",
             "very doubtful"
         ]
-        await ctx.send(f"{ctx.author.mention} {random.choice(responses)}.")
+        random.shuffle(responses)
+        answer = random.choice(responses)
+        await ctx.send(f"{ctx.author.mention} {answer}.")
 
     @eightball.error
     async def eightball_error(self, ctx, error):
@@ -57,8 +59,10 @@ class Fun(commands.Cog):
     @commands.command(aliases=['choose', 'choice', 'pick', 'wheel'], brief="Randomly chooses from inputed choices.", description="Randomly chooses from inputed choices. Separate choices with vertical bar.")
     @commands.guild_only()
     async def decide(self, ctx, *, choices : str):
-        answers = choices.split("|")
-        await ctx.send(f"{ctx.author.mention} {random.choice(answers)}")
+        alist = choices.split("|")
+        random.shuffle(alist)
+        answer = random.choice(alist)
+        await ctx.send(f"{ctx.author.mention} {answer}")
 
 def setup(client):
     client.add_cog(Fun(client))
