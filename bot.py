@@ -2,6 +2,9 @@ import discord
 import json
 import os
 from discord.ext import commands
+from datetime import datetime
+
+time_format = "%a, %d %b %Y @ %I:%M:%S %p"
 
 with open('./config/auth.json', 'r') as a:
     auth = json.load(a)
@@ -17,8 +20,9 @@ client = commands.Bot(
 # Client on_ready event/startup event
 @client.event
 async def on_ready():
+    now = datetime.now()
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f'for {config["prefix"]}help'))
-    print(f"Logged in as {client.user} on {len(client.guilds)} servers!")
+    print(f"Logged in as {client.user} on {len(client.guilds)} servers at {now.strftime(time_format)}")
 
 # Latency command
 @client.command(brief="Displays latency.", description="Displays latency.",)
