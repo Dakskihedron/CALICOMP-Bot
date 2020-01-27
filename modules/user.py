@@ -1,6 +1,6 @@
 import discord
-from discord.ext import commands
 import datetime
+from discord.ext import commands
 
 time_format = "%a, %d %b %Y @ %I:%M:%S %p"
 
@@ -8,8 +8,40 @@ class User(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    # Userinfo command
-    @commands.command(aliases=['info'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.")
+    # Change role name
+    @commands.command(aliases=['rname'], brief="Changes your role name.", description="Changes your role name.", usage="<newrolename>")
+    @commands.guild_only()
+    async def rolename(self, ctx, *, name):
+        curname = ctx.author.top_role.name
+        oldname = None
+        if ctx.author.top_role.position == 0:
+            return await ctx.send(f"{ctx.author.mention} your role cannot be changed.")
+        else:
+            oldname = curname
+            await ctx.author.top_role.edit(name = name)
+            await ctx.send(f"{ctx.author.mention} changed your role name from `{oldname}` to `{name}`.")
+
+    @rolename.error
+    async def rolename_error(self, ctx, error):
+        if isinstance(error, commands.CommandInvokeError):
+            await ctx.send(f"{ctx.author.mention} the name must not exceed 100 characters.")
+
+    # Change role colour
+    @commands.command(aliases=['rcolour'], brief="Changes your role colour.", description="Changes your role colour.", usage="<colourhexcode>")
+    @commands.guild_only()
+    async def rolecolour(self, ctx, colour):
+        curcolour = ctx.author.top_role.colour
+        oldcolour = None
+        if ctx.author.top_role.position == 0:
+            return await ctx.send(f"{ctx.author.mention} your role cannot be changed.")
+        else:
+            oldcolour = curcolour
+            colour = colour.replace('#','')
+            await ctx.author.top_role.edit(colour = discord.Colour(int(colour, 16)))
+            await ctx.send(f"{ctx.author.mention} changed your role colour from `{oldcolour}` to `{colour}`.")
+
+    # Display user info
+    @commands.command(aliases=['uinfo'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.", usage="<optional:user>")
     @commands.guild_only()
     async def userinfo(self, ctx, user: discord.Member=None):
         if not user:
@@ -42,42 +74,10 @@ class User(commands.Cog):
         if isinstance(error, commands.BadArgument):
             await ctx.send(f"{ctx.author.mention} please enter a valid user.")
 
-    # Change role name command
-    @commands.command(aliases=['rolen'], brief="Changes your role name.", description="Changes your role name.")
-    @commands.guild_only()
-    async def rolename(self, ctx, *, newrolename):
-        curname = ctx.author.top_role.name
-        oldname = None
-        if ctx.author.top_role.position == 0:
-            return await ctx.send(f"{ctx.author.mention} your role cannot be changed.")
-        else:
-            oldname = curname
-            await ctx.author.top_role.edit(name = newrolename)
-            await ctx.send(f"{ctx.author.mention} changed your role name from `{oldname}` to `{newrolename}`.")
-
-    @rolename.error
-    async def rolename_error(self, ctx, error):
-        if isinstance(error, commands.CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} 100+ characters: you think you're fucking funny?")
-
-    # Change role colour command
-    @commands.command(aliases=['rolec'], brief="Changes your role colour.", description="Changes your role colour.")
-    @commands.guild_only()
-    async def rolecolour(self, ctx, hexcolourcode):
-        curcolour = ctx.author.top_role.colour
-        oldcolour = None
-        if ctx.author.top_role.position == 0:
-            return await ctx.send(f"{ctx.author.mention} your role cannot be changed.")
-        else:
-            oldcolour = curcolour
-            hexcolourcode = hexcolourcode.replace('#','')
-            await ctx.author.top_role.edit(colour = discord.Colour(int(hexcolourcode, 16)))
-            await ctx.send(f"{ctx.author.mention} changed your role colour from `{oldcolour}` to `{hexcolourcode}`.")
-    
     @rolecolour.error
     async def rolecolour_error(self, ctx, error):
         if isinstance(error, commands.CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} please enter a valid six character hex colour code.")
+            await ctx.send(f"{ctx.author.mention} please enter a valid six character colour hex code.")
 
 def setup(client):
     client.add_cog(User(client))
