@@ -12,14 +12,15 @@ with open('./config/config.json', 'r') as c:
 
 client = commands.Bot(
     command_prefix = config["prefix"],
-    help_command = commands.DefaultHelpCommand(command_attrs=dict(brief="Displays this message.", description=f"Displays list of commands."), no_category='Utility')
+    help_command = commands.DefaultHelpCommand(command_attrs=dict(brief="Displays this message.", description=f"Displays list of commands."), no_category='About')
     )
 
-# Display latency
-@client.command(brief="Displays latency.", description="Displays latency.",)
+# Bot info
+@client.command(brief="Displays bot info.", description="Displays bot info.")
 @commands.guild_only()
-async def ping(ctx):
-    await ctx.send(f"**Latency:** {round(client.latency * 1000)}ms")
+async def info(ctx):
+    info = "```asciidoc\n=== CALICOMP Bot ===\nA Discord bot powered by discord.py\nCreated by: Dakskihedron\nSource: https://github.com/Dakskihedron/CALICOMP-Bot\n```"
+    await ctx.send(info)
 
 for filename in os.listdir('./modules'):
     if filename.endswith('.py'):
