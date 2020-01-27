@@ -6,6 +6,18 @@ class Admin(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    # List of extensions
+    @commands.command(brief="Displays list of extensions.", description="Displays list of extensions.")
+    @commands.guild_only()
+    @commands.is_owner()
+    async def extlist(self, ctx):
+        extlist = []
+        nl = "\n  "
+        for filename in os.listdir('./modules'):
+            if filename.endswith('.py'):
+                extlist.append(filename[:-3])
+        await ctx.send(f"```List of extensions:\n  {nl.join(extlist)}\n```")
+
     # Load an extension
     @commands.command(brief="Loads an extension.", description="Loads an extension.")
     @commands.guild_only()
