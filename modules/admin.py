@@ -43,7 +43,7 @@ class Admin(commands.Cog):
     @unload.error
     async def error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(f"{ctx.author.mention} please enter a valid extension name.")
+            return await ctx.send(f"{ctx.author.mention} please enter a valid extension name.")
 
 def setup(client):
     client.add_cog(Admin(client))
