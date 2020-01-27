@@ -16,7 +16,7 @@ class Fun(commands.Cog):
         await ctx.send(f"{ctx.author.mention} {side}.")
 
     # Decision
-    @commands.command(aliases=['choose', 'pick'], brief="Randomly chooses from inputed choices.", description="Randomly chooses from inputed choices.", usage="<choice1|choice2|...>")
+    @commands.command(aliases=['choose', 'pick'], brief="Randomly picks a choice for you.", description="Randomly picks a choice for you.", usage="<choice1|choice2|...>")
     @commands.guild_only()
     async def decide(self, ctx, *, choices : str):
         alist = choices.split("|")
@@ -25,7 +25,7 @@ class Fun(commands.Cog):
         await ctx.send(f"{ctx.author.mention} {answer}")
 
     # Dice 
-    @commands.command(aliases=['die', 'rng'], brief="Random number generator.", description="Random number generator. Enter a number larger than zero or one.")
+    @commands.command(aliases=['die', 'rng'], brief="Random number generator.", description="Random number generator.\nEnter a number larger than one.")
     @commands.guild_only()
     async def dice(self, ctx, number : float):
         if (number).is_integer():
@@ -36,10 +36,10 @@ class Fun(commands.Cog):
     @dice.error
     async def dice_error(self, ctx, error):
         if isinstance(error, commands.CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} please enter a number larger than zero or one.")
+            return await ctx.send(f"{ctx.author.mention} please enter a number larger than one.")
 
     # Magic eight ball
-    @commands.command(aliases=['8ball'], brief="Seek advice or fortune-telling.", description="Seek advice or fortune-telling. Provide a question.")
+    @commands.command(aliases=['8ball'], brief="Seek advice or fortune-telling.", description="Seek advice or fortune-telling.")
     @commands.guild_only()
     async def eightball(self, ctx, question):
         responses = [
@@ -71,7 +71,7 @@ class Fun(commands.Cog):
     @eightball.error
     async def eightball_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(f"{ctx.author.mention} please enter a question.")
+            return await ctx.send(f"{ctx.author.mention} please enter a question.")
 
 def setup(client):
     client.add_cog(Fun(client))
