@@ -1,12 +1,12 @@
 import discord
 import json
+
 from discord.ext import commands
 from datetime import datetime
+from utils import default
 
 with open('./config/config.json', 'r') as c:
     config = json.load(c)
-
-time_format = "%a, %d %b %Y @ %I:%M:%S %p"
 
 class Events(commands.Cog):
     def __init__(self, client):
@@ -16,7 +16,7 @@ class Events(commands.Cog):
     async def on_ready(self):
         now = datetime.now()
         await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f'for {config["prefix"]}help'))
-        print(f"Logged in as {self.client.user} on {len(self.client.guilds)} servers at {now.strftime(time_format)}")
+        print(f"Logged in as {self.client.user} on {len(self.client.guilds)} servers at {default.date(now)}")
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
