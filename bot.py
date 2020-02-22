@@ -3,6 +3,7 @@ import json
 import os
 
 from discord.ext import commands
+from utils import default
 
 with open('./config/auth.json', 'r') as a:
     auth = json.load(a)
@@ -12,14 +13,14 @@ with open('./config/config.json', 'r') as c:
 
 client = commands.Bot(
     command_prefix = config["prefix"],
-    help_command = commands.DefaultHelpCommand(command_attrs=dict(brief="Displays this message.", description=f"Displays list of commands."), no_category='About')
+    help_command = commands.DefaultHelpCommand(command_attrs=dict(brief="Displays this message.", description=f"Displays help message."), no_category='About')
     )
 
 # Bot info
-@client.command(brief="Displays bot info.", description="Displays bot info.")
+@client.command(brief="Displays information about bot.", description="Displays information about bot.", name="botinfo")
 @commands.guild_only()
-async def info(ctx):
-    info = "```asciidoc\n=== CALICOMP Bot ===\nA Discord bot powered by discord.py\nCreated by: Dakskihedron\nSource: https://github.com/Dakskihedron/CALICOMP-Bot\n```"
+async def bot_info(ctx):
+    info = "```asciidoc\n[CALICOMP Bot]\nA Discord bot powered by discord.py\nCreated by: Dakskihedron\nSource: https://github.com/Dakskihedron/CALICOMP-Bot\n```"
     await ctx.send(info)
 
 for filename in os.listdir('./modules'):
