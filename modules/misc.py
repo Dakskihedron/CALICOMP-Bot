@@ -14,9 +14,9 @@ class Misc(commands.Cog):
         await ctx.send(f"**Latency:** {round(self.client.latency * 1000)}ms")
 
     # Display user info
-    @commands.command(aliases=['uinfo', 'whois'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.", usage="<user>")
+    @commands.command(aliases=['info', 'whois'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.", name="userinfo", usage="<user>")
     @commands.guild_only()
-    async def userinfo(self, ctx, user: discord.Member=None):
+    async def user_info(self, ctx, user: discord.Member=None):
         user = user or ctx.author
         embed = discord.Embed(
             title = f"**{user}**",
@@ -30,7 +30,7 @@ class Misc(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @userinfo.error
+    @user_info.error
     async def userinfo_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
             return await ctx.send(f"{ctx.author.mention} please enter a valid user.")
