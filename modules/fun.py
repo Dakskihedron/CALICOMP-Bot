@@ -8,9 +8,9 @@ class Fun(commands.Cog):
         self.client = client
 
     # Coinflip
-    @commands.command(aliases=['coin', 'cointoss'], brief="Flip a coin.", description="Flip a coin.")
+    @commands.command(aliases=['coin', 'cointoss'], brief="Flip a coin.", description="Flip a coin.", name="coinflip")
     @commands.guild_only()
-    async def coinflip(self, ctx):
+    async def coin_flip(self, ctx):
         coin = ["heads", "tails"]
         random.shuffle(coin)
         side = random.choice(coin)
@@ -40,9 +40,9 @@ class Fun(commands.Cog):
             return await ctx.send(f"{ctx.author.mention} please enter a number larger than one.")
 
     # Magic eight ball
-    @commands.command(aliases=['8ball'], brief="Seek advice or fortune-telling.", description="Seek advice or fortune-telling.")
+    @commands.command(aliases=['8ball'], brief="Seek advice or fortune-telling.", description="Seek advice or fortune-telling.", name="eightball")
     @commands.guild_only()
-    async def eightball(self, ctx, question):
+    async def eight_ball(self, ctx, question):
         responses = [
             "it is certain",
             "it is decidedly so",
@@ -69,8 +69,8 @@ class Fun(commands.Cog):
         answer = random.choice(responses)
         await ctx.send(f"{ctx.author.mention} {answer}.")
 
-    @eightball.error
-    async def eightball_error(self, ctx, error):
+    @eight_ball.error
+    async def eight_ball_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             return await ctx.send(f"{ctx.author.mention} please enter a question.")
 
