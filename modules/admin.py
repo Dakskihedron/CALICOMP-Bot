@@ -35,7 +35,7 @@ class Admin(commands.Cog):
             return
         else:
             self.client.load_extension(f'modules.{extension}')
-            print(f"{extension} extension was loaded by {ctx.author}.")
+            print(f"Extension: {extension} was loaded by {ctx.author}.")
             await ctx.send(f"The `{extension}` extension was sucessfully loaded.")
 
     # Reload all extensions
@@ -46,6 +46,8 @@ class Admin(commands.Cog):
         for filename in os.listdir('./modules'):
             if filename.endswith('.py'):
                 self.client.reload_extension(f'modules.{filename[:-3]}')
+                print(f"Extension: {filename[:-3]} was reloaded by {ctx.author}.")
+        await ctx.send("Successfully reloaded all extensions.")
 
     # Unload an extension
     @ext.command(brief="Unloads an extension.", description="Unloads an extension.", name="unload")
@@ -56,7 +58,7 @@ class Admin(commands.Cog):
             return await ctx.send("The admin extension cannot be unloaded.")
         else:
             self.client.unload_extension(f'modules.{extension}')
-            print(f"{extension} extension was unloaded by {ctx.author}.")
+            print(f"Extension: {extension} was unloaded by {ctx.author}.")
             await ctx.send(f"The `{extension}` extension was sucessfully unloaded.")
 
     @ext_load.error
