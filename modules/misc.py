@@ -14,7 +14,7 @@ class Misc(commands.Cog):
         await ctx.send(f"**Latency:** {round(self.client.latency * 1000)}ms")
 
     # Display user info
-    @commands.command(aliases=['info', 'whois'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.", name="userinfo", usage="<user>")
+    @commands.command(aliases=['uinfo', 'whois'], brief="Displays info about a user.", description="Displays info about a user.\nLeave it blank to display info about yourself.", name="userinfo", usage="<user>")
     @commands.guild_only()
     async def user_info(self, ctx, user: discord.Member=None):
         user = user or ctx.author

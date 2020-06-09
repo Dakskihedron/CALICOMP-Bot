@@ -20,11 +20,11 @@ class Admin(commands.Cog):
     @commands.is_owner()
     async def ext_list(self, ctx):
         exts_list = []
-        nl = "\n  "
+        newline = "\n  "
         for filename in os.listdir('./modules'):
             if filename.endswith('.py'):
                 exts_list.append(filename[:-3])
-        await ctx.send(f"```List of extensions:\n  {nl.join(exts_list)}\n```")
+        await ctx.send(f"```List of extensions:\n  {newline.join(exts_list)}\n```")
 
     # Load an extension
     @ext.command(brief="Loads an extension.", description="Loads an extension.", name="load")
