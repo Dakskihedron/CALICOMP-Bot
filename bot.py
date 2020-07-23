@@ -20,7 +20,7 @@ client = commands.Bot(
 @client.command(brief="Displays information about the bot.", description="Displays information about bot.", name="info")
 @commands.guild_only()
 async def info(ctx):
-    info = "```asciidoc\n[CALICOMP Bot]\nA Discord bot powered by discord.py\nCreated by: Dakskihedron\nSource: https://github.com/Dakskihedron/CALICOMP-Bot\n```"
+    info = "[info message]"
     await ctx.send(info)
 
 for filename in os.listdir('./modules'):
